@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
+// const moment = require('node-moment');
 
 const Dato = require('../models/datos');
 
 router.get('/', async (req, res) => {
-        const datos = await Dato.find();
+        const datos = await Dato.find().limit(20);
         res.json(datos);
     });
 

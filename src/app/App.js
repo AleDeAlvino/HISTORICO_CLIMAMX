@@ -1,3 +1,4 @@
+import { ISO_8601 } from 'moment';
 import React, { Component } from 'react';
 
 import Input from '../components/Input';
@@ -8,7 +9,7 @@ class App extends Component {
         super();
         this.state = {
             id_estacion: '',
-            FECHA: '',
+            FECHA: ''.replace('-', '/'),
             PRECIP: '',
             EVAP: '',
             TMAX: '',
@@ -125,7 +126,7 @@ class App extends Component {
     }
 
     formato(texto){
-        return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,'$3/$2/$1');
+        return texto.toDateString();
     }
 
     render(){
@@ -134,8 +135,11 @@ class App extends Component {
                 {/* {Navigation} */}
                 <nav className="light-blue dark-4">
                     <div className="container">
-                        <a className="brand-logo" href="/">Mern Stack</a>
+                        <a className="brand-logo" href="/">HISTORICO CLIMA</a>
                     </div>
+                </nav>
+                <nav className="blue lighten-5" id="navfiltrado">
+                    
                 </nav>
                 <div className="container">
                     <div className="row">
@@ -174,18 +178,18 @@ class App extends Component {
                                             return(
                                                 <tr key={datos._id}>
                                                     <td>{datos.id_estacion}</td>
-                                                    <td>{datos.FECHA}</td>
-                                                    <td>{datos.PRECIP} (MM)</td>
-                                                    <td>{datos.EVAP} (MM)</td>
-                                                    <td>{datos.TMAX} (°C)</td>
-                                                    <td>{datos.TMIN} (°C)</td>
+                                                    <td>{datos.FECHA.substr(8,2)}{datos.FECHA.substr(4,3)}-{datos.FECHA.substr(0,4)}</td>
+                                                    <td>{datos.PRECIP} mm</td>
+                                                    <td>{datos.EVAP} mm</td>
+                                                    <td>{datos.TMAX} °C</td>
+                                                    <td>{datos.TMIN} °C</td>
                                                     <td>
-                                                        <button onClick={() => this.deleteDato(datos._id)} className="btn light blue darken-4">
+                                                        {/* <button onClick={() => this.deleteDato(datos._id)} className="btn light blue darken-4">
                                                             <i className="material-icons">delete</i>
-                                                        </button>
-                                                        <button onClick={() => this.editDato(datos._id)} className="btn light blue darken-4" style={{marginTop: '4px'}}>
+                                                        </button> */}
+                                                        {/* <button onClick={() => this.editDato(datos._id)} className="btn light blue darken-4" style={{marginTop: '4px'}}>
                                                             <i className="material-icons">edit</i>
-                                                        </button>
+                                                        </button> */}
                                                     </td>
                                                 </tr>
                                             )
