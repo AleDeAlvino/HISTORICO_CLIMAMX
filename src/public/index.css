@@ -1,6 +1,13 @@
 #navfiltrado{
     position: relative;
     float: left;
-    width: 100%;
+    width: 30%;
+    
+}
+
+.btn1{
+    position: fixed;
+    float: left;
+    width: 15%;
     
 }
