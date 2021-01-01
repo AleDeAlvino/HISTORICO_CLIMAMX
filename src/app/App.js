@@ -1,11 +1,19 @@
 import { ISO_8601 } from "moment";
 import React, { Component } from "react";
-import { Multiselect } from 'multiselect-react-dropdown';
 
-import MultiSelect from "react-multi-select-component";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 
 import Input from "../components/Input";
 
+const options = [
+  { value: "rojo", label: "rojo" },
+  { value: "azul", label: "azul" },
+  { value: "verde", label: "verde" },
+  { value: "blanco", label: "blanco" }
+];
+
+const animatedComponents = makeAnimated();
 
 
 class App extends Component {
@@ -19,8 +27,7 @@ class App extends Component {
       TMAX: "",
       TMIN: "",
       datos: [],
-      _id: "",
-      options: [{name: 'Srigar', id: 1},{name: 'Sam', id: 2}]
+      _id: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.addDato = this.addDato.bind(this);
@@ -133,34 +140,24 @@ class App extends Component {
     });
   }
 
-  formato(texto) {
-    return texto.toDateString();
-  }
-
-  
 
   render() {
     return (
         
       <div>
         {/* {Navigation} */}
-        <nav className="light-blue dark-4">
-          <div className="container">
-            <a className="brand-logo" href="/">
-              HISTORICO CLIMA
-            </a>
+        <nav className="navbar navbar-dark bg-primary">
+          <div className="container-fluid">
+            <a className="navbar-brand">HISTORICO</a>
+
+            <Select
+        closeMenuOnSelect={false}
+        components={animatedComponents}
+        defaultValue={[options[1], options[2]]}
+        isMulti
+        options={options}
+      />
           </div>
-        </nav>
-        <nav className="blue lighten-5">
-        <div className="input-field col s12">
-    <select multiple>
-      <option value="" disabled selected>Choose your option</option>
-      <option value="1">Option 1</option>
-      <option value="2">Option 2</option>
-      <option value="3">Option 3</option>
-    </select>
-    <label>Materialize Multiple Select</label>
-  </div>
         </nav>
         <div className="container">
           <div className="row">
@@ -182,15 +179,15 @@ class App extends Component {
                             </div>
                         </div> */}
             <div className="col s7">
-              <table>
+              <table className="table">
                 <thead>
                   <tr>
-                    <th>id_estacion</th>
-                    <th>FECHA</th>
-                    <th>PRECIP</th>
-                    <th>EVAP</th>
-                    <th>TMAX</th>
-                    <th>TMIN</th>
+                    <th scope="col">id_estacion</th>
+                    <th scope="col">FECHA</th>
+                    <th scope="col">PRECIP</th>
+                    <th scope="col">EVAP</th>
+                    <th scope="col">TMAX</th>
+                    <th scope="col">TMIN</th>
                   </tr>
                 </thead>
                 <tbody>

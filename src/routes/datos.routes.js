@@ -5,9 +5,14 @@ const router = express.Router();
 const Dato = require('../models/datos');
 
 router.get('/', async (req, res) => {
-        const datos = await Dato.find().limit(20);
+        const datos = await Dato.find().limit(10);
         res.json(datos);
     });
+
+router.get('/filtrado', async(req, res)=>{
+    const { btn_estado, FECHA, PRECIP, EVAP, TMAX, TMIN} = req.body;
+
+});
 
 router.get('/:id', async (req, res) => {
         const dato = await Dato.findById(req.params.id);
