@@ -5,6 +5,7 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 
 import Input from "../components/Input";
+import MultiSelectAll from "../components/MultiSelectAll";
 
 const options = [
   { value: "rojo", label: "rojo" },
@@ -27,7 +28,7 @@ class App extends Component {
       TMAX: "",
       TMIN: "",
       datos: [],
-      _id: ""
+      _id: "",
     };
     this.handleChange = this.handleChange.bind(this);
     this.addDato = this.addDato.bind(this);
@@ -158,6 +159,10 @@ class App extends Component {
         options={options}
       />
           </div>
+
+          <MultiSelectAll />
+
+
         </nav>
         <div className="container">
           <div className="row">
