@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const URI = 'mongodb://localhost:27017/HISTORICO_CLIMAMX';
+const URI = 'mongodb://localhost:27017/HISTORICO_MX';
 
 mongoose.connect(URI, {useNewUrlParser: true})
     .then(db => {

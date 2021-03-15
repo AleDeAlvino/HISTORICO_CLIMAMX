@@ -3,15 +3,22 @@ const router = express.Router();
 // const moment = require('node-moment');
 
 const Dato = require('../models/datos');
+const Estacion = require('../models/estaciones');
 
 router.get('/', async (req, res) => {
         const datos = await Dato.find().limit(10);
         res.json(datos);
     });
 
-router.get('/filtrado', async(req, res)=>{
-    const { btn_estado, FECHA, PRECIP, EVAP, TMAX, TMIN} = req.body;
-
+router.get('/estados', async(req, res)=>{
+    //const { btn_estado, FECHA, PRECIP, EVAP, TMAX, TMIN} = req.body;
+    const estados = []
+    const datos = await Estacion.distinct("ESTADO");
+    datos.forEach(element => console.log(
+        estado = {"value":element, "label":element},
+        estados.push(estado)
+        ));
+    res.json(estados);
 });
 
 router.get('/:id', async (req, res) => {

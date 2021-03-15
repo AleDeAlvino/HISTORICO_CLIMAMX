@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 
-import Input from "../components/Input";
+// import Input from "../components/Input";
 import MultiSelectAll from "../components/MultiSelectAll";
 
 const options = [
@@ -21,21 +21,26 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      id_estacion: "",
-      FECHA: "".replace("-", "/"),
+      ID_ESTACION: "",
+      FECHA: "",
       PRECIP: "",
       EVAP: "",
       TMAX: "",
       TMIN: "",
       datos: [],
+      estados: [],
       _id: "",
     };
     this.handleChange = this.handleChange.bind(this);
     this.addDato = this.addDato.bind(this);
+    // this.fetchEstado = this.fetchDato.bind(this);
   }
 
+  /*const [id_estacion, setid_estacion] = useState("");
+  setid_estacion(1);
+  console.log(id_estacion);*/
 
-  addDato(e) {
+ addDato(e) {
     if (this.state._id) {
       fetch(`/api/dato/${this.state._id}`, {
         method: "PUT",
@@ -72,7 +77,7 @@ class App extends Component {
           console.log(data);
           M.toast({ html: "Poducto guardado" });
           this.setState({
-            id_estacion: "",
+            ID_ESTACION: "",
             FECHA: "",
             PRECIP: "",
             EVAP: "",
@@ -89,6 +94,7 @@ class App extends Component {
   componentDidMount() {
     this.fetchDato();
   }
+  //useffect
 
   fetchDato() {
     fetch("/api/dato")
@@ -97,6 +103,7 @@ class App extends Component {
         this.setState({ datos: data });
         console.log(this.state.datos);
       });
+      this.fetchEstado();
   }
 
   deleteDato(id) {
@@ -123,7 +130,7 @@ class App extends Component {
       .then((data) => {
         console.log(data);
         this.setState({
-          id_estacion: data.id_estacion,
+          ID_ESTACION: data.ID_ESTACION,
           FECHA: data.FECHA,
           PRECIP: data.PRECIP,
           EVAP: data.EVAP,
@@ -141,6 +148,15 @@ class App extends Component {
     });
   }
 
+  fetchEstado() {
+    fetch("/api/dato/estados")
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({ estados: data });
+        console.log(this.state.estados);
+      });
+  }
+
 
   render() {
     return (
@@ -148,7 +164,7 @@ class App extends Component {
       <div>
         {/* {Navigation} */}
         <nav className="navbar navbar-dark bg-primary">
-          <div className="container-fluid">
+          {/* <div className="container-fluid">
             <a className="navbar-brand">HISTORICO</a>
 
             <Select
@@ -158,9 +174,12 @@ class App extends Component {
         isMulti
         options={options}
       />
-          </div>
+          </div> */}
 
-          <MultiSelectAll />
+          <MultiSelectAll
+          className="filter" 
+          options={this.state.estados}
+          />
 
 
         </nav>
@@ -187,7 +206,7 @@ class App extends Component {
               <table className="table">
                 <thead>
                   <tr>
-                    <th scope="col">id_estacion</th>
+                    <th scope="col">ID_ESTACION</th>
                     <th scope="col">FECHA</th>
                     <th scope="col">PRECIP</th>
                     <th scope="col">EVAP</th>
@@ -199,7 +218,7 @@ class App extends Component {
                   {this.state.datos.map((datos) => {
                     return (
                       <tr key={datos._id}>
-                        <td>{datos.id_estacion}</td>
+                        <td>{datos.ID_ESTACION}</td>
                         <td>
                           {datos.FECHA.substr(8, 2)}
                           {datos.FECHA.substr(4, 3)}-{datos.FECHA.substr(0, 4)}
