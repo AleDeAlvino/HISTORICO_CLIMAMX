@@ -30,6 +30,8 @@ class App extends Component {
       datos: [],
       estados: [],
       _id: "",
+      municipios: [],
+      lista: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.addDato = this.addDato.bind(this);
@@ -104,6 +106,7 @@ class App extends Component {
         console.log(this.state.datos);
       });
       this.fetchEstado();
+      this.fetchMunicipio();
   }
 
   deleteDato(id) {
@@ -157,6 +160,28 @@ class App extends Component {
       });
   }
 
+  fetchMunicipio() {
+    fetch("/api/dato/municipios")
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({ municipios: data });
+        console.log(this.state.municipios);
+      });
+  }
+
+  handeResponseFromMultiSelectAll(response)
+      {
+      /* Para obtener el valor */
+      //var cod = document.getElementById("multi_est");
+      console.log('hola');
+       
+      /* Para obtener el texto */
+      //var combo = document.getElementById("multi_est");
+      //var selected = combo.options[combo.selectedIndex].text;
+      //console.log(selected);
+    }
+
+
 
   render() {
     return (
@@ -164,25 +189,31 @@ class App extends Component {
       <div>
         {/* {Navigation} */}
         <nav className="navbar navbar-dark bg-primary">
-          {/* <div className="container-fluid">
-            <a className="navbar-brand">HISTORICO</a>
 
-            <Select
-        closeMenuOnSelect={false}
-        components={animatedComponents}
-        defaultValue={[options[1], options[2]]}
-        isMulti
-        options={options}
-      />
-          </div> */}
+        <a className="navbar-brand" id="title_head">HISTORICO</a>
 
-          <MultiSelectAll
-          className="filter" 
+        <div id="barra_filtros">
+        <div className="filter" >
+        <MultiSelectAll
+          id="multi_est"
           options={this.state.estados}
+          placeholderButtonLabel="Estados"
           />
+        </div>
 
+        <div className="filter" >
+        <MultiSelectAll
+          id="multi_mun"
+          options={this.state.municipios}
+          placeholderButtonLabel="Municipios"
+          />
+        </div>
+        </div>
+
+        
 
         </nav>
+        
         <div className="container">
           <div className="row">
             {/* <div className="col s5">

@@ -21,6 +21,23 @@ router.get('/estados', async(req, res)=>{
     res.json(estados);
 });
 
+router.get('/municipios', async(req, res)=>{
+    //const { btn_estado, FECHA, PRECIP, EVAP, TMAX, TMIN} = req.body;
+    const municipios = []
+    const datos = await Estacion.distinct("MUNICIPIO");
+    datos.forEach(element => console.log(
+        municipio = {"value":element, "label":element},
+        municipios.push(municipio)
+        ));
+    res.json(municipios);
+});
+
+router.get('/filtro:array', async (req, res) => {
+    const dat_fil = [];
+    const datos = await Dato.find().limit(10);
+    res.json(datos);
+});
+
 router.get('/:id', async (req, res) => {
         const dato = await Dato.findById(req.params.id);
         res.json(dato);
