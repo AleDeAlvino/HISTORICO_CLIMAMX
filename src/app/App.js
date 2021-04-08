@@ -1,24 +1,24 @@
-import { ISO_8601 } from "moment";
-import React, { Component } from "react";
+//import { ISO_8601 } from "moment";
+import React, { useState, useEffect } from "react";
 
-import Select from "react-select";
+//import Select from "react-select";
 import makeAnimated from "react-select/animated";
 
 // import Input from "../components/Input";
 import MultiSelectAll from "../components/MultiSelectAll";
 
-const options = [
+/*const options = [
   { value: "rojo", label: "rojo" },
   { value: "azul", label: "azul" },
   { value: "verde", label: "verde" },
   { value: "blanco", label: "blanco" }
-];
+];*/
 
 const animatedComponents = makeAnimated();
 
 
-class App extends Component {
-  constructor() {
+function App () {
+  /*constructor() {
     super();
     this.state = {
       ID_ESTACION: "",
@@ -36,17 +36,30 @@ class App extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.addDato = this.addDato.bind(this);
     // this.fetchEstado = this.fetchDato.bind(this);
-  }
+  }*/
 
-  /*const [id_estacion, setid_estacion] = useState("");
-  setid_estacion(1);
-  console.log(id_estacion);*/
+  const [ID_ESTACION, setID_ESTACION] = useState("");
+  const [FECHA, setFECHA] = useState("");
+  const [PRECIP, setPRECIP] = useState("");
+  const [EVAP, setEVAP] = useState("");
+  const [TMAX, setTMAX] = useState("");
+  const [TMIN, setTMIN] = useState("");
+  const [_id, set_id] = useState("");
+  const [datos, setdatos] = useState([]);
+  const [estados, setestados] = useState([]);
+  const [municipios, setmunicipios] = useState([]);
+  const [lista, setlista] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [b_estados, setb_estados] = useState([]);
 
- addDato(e) {
-    if (this.state._id) {
-      fetch(`/api/dato/${this.state._id}`, {
+  //setid_estacion(1);
+  //console.log(id_estacion);
+
+const addDato = (e)=>{
+    if (_id) {
+      fetch(`/api/dato/${_id}`, {
         method: "PUT",
-        body: JSON.stringify(this.state),
+        body: JSON.stringify(useState()),
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -56,19 +69,17 @@ class App extends Component {
         .then((data) => {
           console.log(data);
           M.toast({ html: "Dato Actualizado" });
-          this.setState({
-            FECHA: "",
-            PRECIP: "",
-            EVAP: "",
-            TMAX: "",
-            TMIN: "",
-          });
-          this.fetchDato();
+          setFECHA("");
+          setPRECIP("");
+          setEVAP("");
+          setTMAX("");
+          setTMIN("");
+          fetchDato();
         });
     } else {
       fetch("/api/dato", {
         method: "POST",
-        body: JSON.stringify(this.state),
+        body: JSON.stringify(useState()),
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -78,38 +89,36 @@ class App extends Component {
         .then((data) => {
           console.log(data);
           M.toast({ html: "Poducto guardado" });
-          this.setState({
-            ID_ESTACION: "",
-            FECHA: "",
-            PRECIP: "",
-            EVAP: "",
-            TMAX: "",
-            TMIN: "",
-          });
-          this.fetchDato();
+          setID_ESTACION("");
+          setFECHA("");
+          setPRECIP("");
+          setEVAP("");
+          setTMAX("");
+          setTMIN("");
+          fetchDato();
         })
         .catch((err) => console.error(err));
     }
     e.preventDefault();
   }
 
-  componentDidMount() {
-    this.fetchDato();
-  }
-  //useffect
+// const componentDidMount = () =>{
+//     fetchDato();
+//   }
 
-  fetchDato() {
+
+const fetchDato = () => {
     fetch("/api/dato")
       .then((res) => res.json())
       .then((data) => {
-        this.setState({ datos: data });
-        console.log(this.state.datos);
+        setdatos(data);
+        console.log(datos);
       });
-      this.fetchEstado();
-      this.fetchMunicipio();
+      fetchEstado();
+      fetchMunicipio();
   }
 
-  deleteDato(id) {
+const deleteDato = (id) =>{
     if (confirm("¿Estas seguro de Eliminarlo?")) {
       fetch(`/api/dato/${id}`, {
         method: "DELETE",
@@ -122,68 +131,119 @@ class App extends Component {
         .then((data) => {
           console.log(data);
           M.toast({ html: "Dato eliminado" });
-          this.fetchDato();
+          fetchDato();
         });
     }
   }
 
-  editDato(id) {
+const  editDato = (id) => {
     fetch(`/api/dato/${id}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        this.setState({
-          ID_ESTACION: data.ID_ESTACION,
-          FECHA: data.FECHA,
-          PRECIP: data.PRECIP,
-          EVAP: data.EVAP,
-          TMAX: data.TMAX,
-          TMIN: data.TMIN,
-          _id: data._id,
-        });
+        setID_ESTACION(data.ID_ESTACION);
+        setFECHA(data.FECHA);
+        setPRECIP(data.PRECIP);
+        setEVAP(data.EVAP);
+        setTMAX(data.TMAX);
+        setTMIN(data.TMIN);
+        set_id(data._id);
       });
   }
 
-  handleChange(e) {
+
+  /*const handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({
       [name]: value,
     });
-  }
+  }*/
 
-  fetchEstado() {
+const fetchEstado = () => {
     fetch("/api/dato/estados")
       .then((res) => res.json())
       .then((data) => {
-        this.setState({ estados: data });
-        console.log(this.state.estados);
+        setestados(data);
+        console.log(estados);
       });
   }
 
-  fetchMunicipio() {
+const fetchMunicipio = () => {
     fetch("/api/dato/municipios")
       .then((res) => res.json())
       .then((data) => {
-        this.setState({ municipios: data });
-        console.log(this.state.municipios);
+        setmunicipios(data);
+        console.log(municipios);
       });
   }
 
-  handeResponseFromMultiSelectAll(response)
+  /*handeResponseFromMultiSelectAll(response)
       {
       /* Para obtener el valor */
       //var cod = document.getElementById("multi_est");
-      console.log('hola');
+      //console.log('hola');
        
       /* Para obtener el texto */
       //var combo = document.getElementById("multi_est");
       //var selected = combo.options[combo.selectedIndex].text;
       //console.log(selected);
+    //}
+    
+    useEffect(() => {
+      fetchDato();
+
+    }, []);
+
+    function getDropdownButtonLabel({ placeholderButtonLabel, value }) {
+      if (value && value.some((o) => o.value === "*")) {
+        return `${placeholderButtonLabel}: All`;
+      } else {
+        return `${placeholderButtonLabel}: ${value.length} seleccionados`;
+      }
+    }
+  
+    function ShowSelected(arr)
+        {
+          var i;
+          var n_arr=[];
+        for(i=0; i<arr.length; i++){
+          if(arr[i].value != '*'){
+            n_arr.push(arr[i].value);
+          }
+        }
+        console.log(n_arr);
+        
+      }
+      
+  
+    function onChange(value, event) {
+      if (event.action === "select-option" && event.option.value === "*") {
+        this.setState(this.options);
+        console.log("primer if");
+        ShowSelected(this.options);
+      } else if (
+        event.action === "deselect-option" &&
+        event.option.value === "*"
+      ) {
+        this.setState([]);
+        console.log("segundo if");
+        ShowSelected([]);
+      } else if (event.action === "deselect-option") {
+        this.setState(value.filter((o) => o.value !== "*"));
+        console.log("tercer if");
+        ShowSelected(value);
+      } else if (value.length === this.options.length - 1) {
+        this.setState(this.options);
+        console.log("cuarto if");
+        ShowSelected(value);
+      } else {
+        this.setState(value);
+        console.log("quinto if");
+        ShowSelected(value);
+      }
     }
 
 
-
-  render() {
     return (
         
       <div>
@@ -194,18 +254,28 @@ class App extends Component {
 
         <div id="barra_filtros">
         <div className="filter" >
-        <MultiSelectAll
-          id="multi_est"
-          options={this.state.estados}
-          placeholderButtonLabel="Estados"
+          <MultiSelectAll
+            id="multi_est"
+            options={estados}
+            placeholderButtonLabel="Estados"
+            name = "Estados"
+            getDropdownButtonLabel={getDropdownButtonLabel}
+            value={selectedOptions}
+            onChange={onChange}
+            setState={setSelectedOptions}
           />
         </div>
 
         <div className="filter" >
         <MultiSelectAll
           id="multi_mun"
-          options={this.state.municipios}
+          options={municipios}
           placeholderButtonLabel="Municipios"
+          name = "Municipios"
+          getDropdownButtonLabel={getDropdownButtonLabel}
+          value={selectedOptions}
+          onChange={onChange}
+          setState={setSelectedOptions}
           />
         </div>
         </div>
@@ -246,7 +316,7 @@ class App extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.datos.map((datos) => {
+                  {datos.map((datos) => {
                     return (
                       <tr key={datos._id}>
                         <td>{datos.ID_ESTACION}</td>
@@ -277,6 +347,5 @@ class App extends Component {
       </div>
     );
   }
-}
 
 export default App;
