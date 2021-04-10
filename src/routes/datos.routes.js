@@ -32,16 +32,24 @@ router.get('/municipios', async(req, res)=>{
     res.json(municipios);
 });
 
-router.get('/filtro:array', async (req, res) => {
-    const dat_fil = [];
-    const datos = await Dato.find().limit(10);
-    res.json(datos);
-});
-
 router.get('/:id', async (req, res) => {
         const dato = await Dato.findById(req.params.id);
         res.json(dato);
     });
+
+
+router.post('/search_mun', async (req, res) => {
+    const mun = [];
+    console.log(req.body.a_es)
+    for (var i = 0; i < req.body.a_es.length; i++){
+        const datos = await Estacion.find({ESTADO : req.body.a_es[i]});
+        datos.forEach(element => console.log(
+        municipio = {"value":element.MUNICIPIO, "label":element.MUNICIPIO},
+        mun.push(municipio)
+        ));
+    }
+    res.json(mun);
+});
 
 router.post('/', async (req, res) => {
     const { id_estacion, FECHA, PRECIP, EVAP, TMAX, TMIN} = req.body;

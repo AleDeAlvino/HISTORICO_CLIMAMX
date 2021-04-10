@@ -7,36 +7,11 @@ import makeAnimated from "react-select/animated";
 // import Input from "../components/Input";
 import MultiSelectAll from "../components/MultiSelectAll";
 
-/*const options = [
-  { value: "rojo", label: "rojo" },
-  { value: "azul", label: "azul" },
-  { value: "verde", label: "verde" },
-  { value: "blanco", label: "blanco" }
-];*/
 
 const animatedComponents = makeAnimated();
 
 
 function App () {
-  /*constructor() {
-    super();
-    this.state = {
-      ID_ESTACION: "",
-      FECHA: "",
-      PRECIP: "",
-      EVAP: "",
-      TMAX: "",
-      TMIN: "",
-      datos: [],
-      estados: [],
-      _id: "",
-      municipios: [],
-      lista: [],
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.addDato = this.addDato.bind(this);
-    // this.fetchEstado = this.fetchDato.bind(this);
-  }*/
 
   const [ID_ESTACION, setID_ESTACION] = useState("");
   const [FECHA, setFECHA] = useState("");
@@ -50,8 +25,14 @@ function App () {
   const [municipios, setmunicipios] = useState([]);
   const [lista, setlista] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState([]);
-  const [b_estados, setb_estados] = useState([]);
+  const [selectedOptions2, setSelectedOptions2] = useState([]);
+  const [a_es, seta_es] = useState([]);
+  const [a_mun, seta_mun] = useState([]);
+  const [bole, set_bole] = useState(false);
 
+  var i;
+  var n_es=[];
+  var n_mun=[];
   //setid_estacion(1);
   //console.log(id_estacion);
 
@@ -177,22 +158,29 @@ const fetchMunicipio = () => {
       });
   }
 
-  /*handeResponseFromMultiSelectAll(response)
-      {
-      /* Para obtener el valor */
-      //var cod = document.getElementById("multi_est");
-      //console.log('hola');
-       
-      /* Para obtener el texto */
-      //var combo = document.getElementById("multi_est");
-      //var selected = combo.options[combo.selectedIndex].text;
-      //console.log(selected);
-    //}
+
+  
     
     useEffect(() => {
       fetchDato();
-
     }, []);
+
+    function SearchMun(){
+      fetch("/api/dato/search_mun", {
+        method: "POST",
+        body: JSON.stringify({a_es}),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        //setmostrar_mun(data);
+        //console.log(mostrar_mun);
+        setSelectedOptions2(data);
+      });
+    }
 
     function getDropdownButtonLabel({ placeholderButtonLabel, value }) {
       if (value && value.some((o) => o.value === "*")) {
@@ -201,45 +189,53 @@ const fetchMunicipio = () => {
         return `${placeholderButtonLabel}: ${value.length} seleccionados`;
       }
     }
-  
-    function ShowSelected(arr)
+
+    
+    function ShowSelected(arr, nom)
         {
-          var i;
-          var n_arr=[];
         for(i=0; i<arr.length; i++){
           if(arr[i].value != '*'){
-            n_arr.push(arr[i].value);
+            if(nom=="Estados"){
+              n_es.push(arr[i].value);
+              seta_es(n_es);
+              SearchMun();
+            }
+            else if (nom=="Municipios"){
+              n_mun.push(arr[i].value);
+              seta_mun(n_mun);
+            }
           }
         }
-        console.log(n_arr);
-        
+        console.log(a_es);
       }
       
   
     function onChange(value, event) {
+      var nom = this.placeholderButtonLabel;
+      console.log(nom);
       if (event.action === "select-option" && event.option.value === "*") {
         this.setState(this.options);
         console.log("primer if");
-        ShowSelected(this.options);
+        ShowSelected(this.options, nom);
       } else if (
         event.action === "deselect-option" &&
         event.option.value === "*"
       ) {
         this.setState([]);
         console.log("segundo if");
-        ShowSelected([]);
+        ShowSelected([], nom);
       } else if (event.action === "deselect-option") {
         this.setState(value.filter((o) => o.value !== "*"));
         console.log("tercer if");
-        ShowSelected(value);
+        ShowSelected(value, nom);
       } else if (value.length === this.options.length - 1) {
         this.setState(this.options);
         console.log("cuarto if");
-        ShowSelected(value);
+        ShowSelected(value, nom);
       } else {
         this.setState(value);
         console.log("quinto if");
-        ShowSelected(value);
+        ShowSelected(value, nom);
       }
     }
 
@@ -258,7 +254,6 @@ const fetchMunicipio = () => {
             id="multi_est"
             options={estados}
             placeholderButtonLabel="Estados"
-            name = "Estados"
             getDropdownButtonLabel={getDropdownButtonLabel}
             value={selectedOptions}
             onChange={onChange}
@@ -271,11 +266,10 @@ const fetchMunicipio = () => {
           id="multi_mun"
           options={municipios}
           placeholderButtonLabel="Municipios"
-          name = "Municipios"
           getDropdownButtonLabel={getDropdownButtonLabel}
-          value={selectedOptions}
+          value={selectedOptions2}
           onChange={onChange}
-          setState={setSelectedOptions}
+          setState={setSelectedOptions2}
           />
         </div>
         </div>
