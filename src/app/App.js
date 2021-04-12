@@ -1,4 +1,5 @@
 //import { ISO_8601 } from "moment";
+import { set } from "mongoose";
 import React, { useState, useEffect } from "react";
 
 //import Select from "react-select";
@@ -162,10 +163,17 @@ const fetchMunicipio = () => {
   
     
     useEffect(() => {
-      fetchDato();
-    }, []);
+      
+      if(datos[1] == null){
+        fetchDato();
+      }
+        //console.log("entraste al fetch");
+      
+      SearchMun(2);
+      
+    }, [bole]);
 
-    function SearchMun(){
+    function SearchMun(variable){
       fetch("/api/dato/search_mun", {
         method: "POST",
         body: JSON.stringify({a_es}),
@@ -179,6 +187,12 @@ const fetchMunicipio = () => {
         //setmostrar_mun(data);
         //console.log(mostrar_mun);
         setSelectedOptions2(data);
+        if(variable==1){
+          set_bole(true)
+        }
+        else{
+          set_bole(false)
+        }
       });
     }
 
@@ -198,7 +212,7 @@ const fetchMunicipio = () => {
             if(nom=="Estados"){
               n_es.push(arr[i].value);
               seta_es(n_es);
-              SearchMun();
+              SearchMun(1);
             }
             else if (nom=="Municipios"){
               n_mun.push(arr[i].value);
@@ -258,6 +272,7 @@ const fetchMunicipio = () => {
             value={selectedOptions}
             onChange={onChange}
             setState={setSelectedOptions}
+            n_es={n_es}
           />
         </div>
 
@@ -270,6 +285,7 @@ const fetchMunicipio = () => {
           value={selectedOptions2}
           onChange={onChange}
           setState={setSelectedOptions2}
+          n_es={n_es}
           />
         </div>
         </div>
