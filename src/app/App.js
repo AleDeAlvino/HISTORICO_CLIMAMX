@@ -164,7 +164,7 @@ const fetchMunicipio = () => {
     
     useEffect(() => {
       
-      if(datos[1] == null){
+      if(datos[0] == null){
         fetchDato();
       }
         //console.log("entraste al fetch");
@@ -185,15 +185,29 @@ const fetchMunicipio = () => {
       .then((res) => res.json())
       .then((data) => {
         //setmostrar_mun(data);
-        //console.log(mostrar_mun);
+        console.log("esta es d:  "+data);
         setSelectedOptions2(data);
         if(variable==1){
           set_bole(true)
         }
         else{
           set_bole(false)
+          seta_es([]);
         }
       });
+    }
+
+    function getDropdownButtonLabel2({ placeholderButtonLabel, value }) {
+      if (value && value.some((o) => o.value === "*")) {
+        return `${placeholderButtonLabel}: All`;
+      }else {
+        if(bole==false){
+          return `${placeholderButtonLabel}: ${value.length} seleccionados`;
+        }
+        else{
+        return `${placeholderButtonLabel}: cargando...`;
+        }
+      }
     }
 
     function getDropdownButtonLabel({ placeholderButtonLabel, value }) {
@@ -207,24 +221,37 @@ const fetchMunicipio = () => {
     
     function ShowSelected(arr, nom)
         {
-        for(i=0; i<arr.length; i++){
-          if(arr[i].value != '*'){
-            if(nom=="Estados"){
-              n_es.push(arr[i].value);
-              seta_es(n_es);
-              SearchMun(1);
-            }
-            else if (nom=="Municipios"){
-              n_mun.push(arr[i].value);
-              seta_mun(n_mun);
+          console.log("estoy en show");
+          console.log("este es arr:"+arr+".");
+          if(arr[0]== null){
+            console.log("entre al else")
+            seta_es([]);
+            SearchMun(1);
+          }else if(arr[0]!=null){
+            for(i=0; i<arr.length; i++){
+              console.log("entre al for");
+              if(arr[i].value != '*'){
+                console.log("entre a 2 if");
+                if(nom=="Estados"){
+                  n_es.push(arr[i].value);
+                  seta_es(n_es);
+                  console.log("esta es a_es:  "+n_es);
+                  SearchMun(1);
+                }
+                else if (nom=="Municipios"){
+                  n_mun.push(arr[i].value);
+                  seta_mun(n_mun);
+                  
+                }
+              }
             }
           }
-        }
         console.log(a_es);
       }
       
   
     function onChange(value, event) {
+
       var nom = this.placeholderButtonLabel;
       console.log(nom);
       if (event.action === "select-option" && event.option.value === "*") {
@@ -245,7 +272,7 @@ const fetchMunicipio = () => {
       } else if (value.length === this.options.length - 1) {
         this.setState(this.options);
         console.log("cuarto if");
-        ShowSelected(value, nom);
+        ShowSelected(this.options, nom);
       } else {
         this.setState(value);
         console.log("quinto if");
@@ -275,13 +302,13 @@ const fetchMunicipio = () => {
             n_es={n_es}
           />
         </div>
-
+        
         <div className="filter" >
         <MultiSelectAll
           id="multi_mun"
           options={municipios}
           placeholderButtonLabel="Municipios"
-          getDropdownButtonLabel={getDropdownButtonLabel}
+          getDropdownButtonLabel={getDropdownButtonLabel2}
           value={selectedOptions2}
           onChange={onChange}
           setState={setSelectedOptions2}
