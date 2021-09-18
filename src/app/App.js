@@ -30,6 +30,7 @@ function App () {
   const [a_es, seta_es] = useState([]);
   const [a_mun, seta_mun] = useState([]);
   const [bole, set_bole] = useState(false);
+  const [b_all, set_b_all] = useState(false);
 
   var i;
   var n_es=[];
@@ -170,8 +171,11 @@ const fetchMunicipio = () => {
         //console.log("entraste al fetch");
       
       SearchMun(2);
-      
     }, [bole]);
+
+    function Filtro_final(){
+      
+    }
 
     function SearchMun(variable){
       fetch("/api/dato/search_mun", {
@@ -193,6 +197,7 @@ const fetchMunicipio = () => {
         else{
           set_bole(false)
           seta_es([]);
+          set_b_all(false);
         }
       });
     }
@@ -221,6 +226,7 @@ const fetchMunicipio = () => {
     
     function ShowSelected(arr, nom)
         {
+          set_b_all(true);
           console.log("estoy en show");
           console.log("este es arr:"+arr+".");
           if(arr[0]== null){
@@ -299,6 +305,8 @@ const fetchMunicipio = () => {
             value={selectedOptions}
             onChange={onChange}
             setState={setSelectedOptions}
+            isOptionDisabled={true}
+            b_all = {b_all}
             n_es={n_es}
           />
         </div>
@@ -307,11 +315,12 @@ const fetchMunicipio = () => {
         <MultiSelectAll
           id="multi_mun"
           options={municipios}
-          placeholderButtonLabel="Municipios"
+          placeholderButtonLabel="Estaciones"
           getDropdownButtonLabel={getDropdownButtonLabel2}
           value={selectedOptions2}
           onChange={onChange}
           setState={setSelectedOptions2}
+          b_all = {b_all}
           n_es={n_es}
           />
         </div>

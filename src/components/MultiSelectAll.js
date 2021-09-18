@@ -14,12 +14,13 @@ const MultiSelectAll = (props) => {
 
   return (
     <ReactMultiSelectCheckboxes
-      options={[{ label: "All", value: "*" }, ...props.options]}
+      options={[{ label: "All", value: "*", isdisabled: props.b_all}, ...props.options]}
       placeholderButtonLabel={props.placeholderButtonLabel}
       getDropdownButtonLabel={props.getDropdownButtonLabel}
       value={props.value}
       onChange={props.onChange}
       setState={props.setState}
+      isOptionDisabled={(option) => option.isdisabled = props.b_all}
     />
   );
 };
