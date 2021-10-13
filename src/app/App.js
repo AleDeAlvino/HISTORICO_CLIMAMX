@@ -7,7 +7,7 @@ import makeAnimated from "react-select/animated";
 
 // import Input from "../components/Input";
 import MultiSelectAll from "../components/MultiSelectAll";
-
+// import fs from 'fs'
 
 const animatedComponents = makeAnimated();
 
@@ -29,12 +29,16 @@ function App () {
   const [selectedOptions2, setSelectedOptions2] = useState([]);
   const [a_es, seta_es] = useState([]);
   const [a_mun, seta_mun] = useState([]);
+  const [a_estac, seta_estac] = useState([]);
   const [bole, set_bole] = useState(false);
   const [b_all, set_b_all] = useState(false);
+  // const converter = require('json-2-csv');
+  // const fs = require('fs');
 
   var i;
   var n_es=[];
   var n_mun=[];
+  var v_mun=[];
   //setid_estacion(1);
   //console.log(id_estacion);
 
@@ -173,8 +177,42 @@ const fetchMunicipio = () => {
       SearchMun(2);
     }, [bole]);
 
-    function Filtro_final(){
-      
+    // function search_esta(muni){
+    //   console.log(muni);
+    //   fetch("/api/dato/estaciones", {
+    //     method: "POST",
+    //     body: JSON.stringify({muni}),
+    //     headers: {
+    //       Accept: "application/json",
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     //setmostrar_mun(data);
+    //     console.log("esta es data: " + data);
+    //     set_b_all(false);
+    //     seta_estac(data);
+        
+    //     console.log("esta es b_all: " + b_all);
+    //   });
+    // }
+
+    function Filtro_final(muni){
+      console.log(muni);
+      fetch("/api/dato/filtroCombinado", {
+        method: "POST",
+        body: JSON.stringify({muni}),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        //setmostrar_mun(data);
+        
+      });
     }
 
     function SearchMun(variable){
@@ -189,13 +227,17 @@ const fetchMunicipio = () => {
       .then((res) => res.json())
       .then((data) => {
         //setmostrar_mun(data);
-        console.log("esta es d:  "+data);
-        setSelectedOptions2(data);
+        var data2 = a_mun.concat(data);
+        console.log("esta es data2  ");
+        data2.map((element) => {console.log(element)});
+        // console.log("esta es data  ");
+        // data.map((element) => {console.log(element)});
+        setSelectedOptions2(data2);
         if(variable==1){
           set_bole(true)
         }
         else{
-          set_bole(false)
+          set_bole(false);
           seta_es([]);
           set_b_all(false);
         }
@@ -227,6 +269,7 @@ const fetchMunicipio = () => {
     function ShowSelected(arr, nom)
         {
           set_b_all(true);
+          console.log("esta es b_all en search: " + b_all);
           console.log("estoy en show");
           console.log("este es arr:"+arr+".");
           if(arr[0]== null){
@@ -242,12 +285,22 @@ const fetchMunicipio = () => {
                   n_es.push(arr[i].value);
                   seta_es(n_es);
                   console.log("esta es a_es:  "+n_es);
+                  console.log("este es selected: " + selectedOptions);
                   SearchMun(1);
                 }
                 else if (nom=="Municipios"){
-                  n_mun.push(arr[i].value);
-                  seta_mun(n_mun);
-                  
+                  // n_mun.push(arr[i].value);
+                  // seta_mun(n_mun);
+                  var mn = {"value":arr[i].value, "label":arr[i].value, "isdisabled": false};
+                  console.log("este es mn: " + mn);
+                  v_mun.push(mn);
+                  console.log("este es v_mun: " + v_mun);
+                  seta_mun(v_mun);
+                  console.log("este es a_mun: " + a_mun);
+                  // console.log("este es n_mun: " + n_mun);
+                  console.log("este es selected2: " + selectedOptions2);
+                  // search_esta(n_mun);
+
                 }
               }
             }
@@ -315,7 +368,7 @@ const fetchMunicipio = () => {
         <MultiSelectAll
           id="multi_mun"
           options={municipios}
-          placeholderButtonLabel="Estaciones"
+          placeholderButtonLabel="Municipios"
           getDropdownButtonLabel={getDropdownButtonLabel2}
           value={selectedOptions2}
           onChange={onChange}
