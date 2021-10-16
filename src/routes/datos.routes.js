@@ -10,7 +10,7 @@ const dfd = require("danfojs-node");
 
 router.get('/', async (req, res) => {
         const datos = await Dato.find().limit(10);
-        console.log(datos);
+        // console.log(datos);
         //una vez
         // var estac = [];
         // const munc = await Estacion.distinct("MUNICIPIO");
@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
         //     await dat.save();
         //     estac = [];
         // }
-        // res.json(datos);
+        res.json(datos);
     });
 
 router.get('/estados', async(req, res)=>{

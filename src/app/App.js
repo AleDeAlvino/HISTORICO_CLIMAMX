@@ -349,7 +349,7 @@ const fetchMunicipio = () => {
         <a className="navbar-brand" id="title_head">HISTORICO</a>
 
         <div id="barra_filtros">
-        <div className="filter" >
+        <div className="filter" id="f_e">
           <MultiSelectAll
             id="multi_est"
             options={estados}
@@ -364,7 +364,7 @@ const fetchMunicipio = () => {
           />
         </div>
         
-        <div className="filter" >
+        <div className="filter" id="f_m">
         <MultiSelectAll
           id="multi_mun"
           options={municipios}
@@ -377,10 +377,29 @@ const fetchMunicipio = () => {
           n_es={n_es}
           />
         </div>
+
+        <div className="bts">
+        {/* <div className="container px-1 px-sm-5 mx-auto"> */}
+          <form autocomplete="off">
+            <div className="flex-row d-flex"> 
+              <div className="col-lg-6 col-11">
+                <div className="input-group input-daterange"> 
+                  <input type="text" id="start" className="form-control text-left mr-4" placeholder="Fecha Inicial"></input>
+                  <span className="fa fa-calendar" id="fa-1"></span>
+                  <input type="text" id="end" className="form-control text-left" placeholder="Fecha Final"></input>
+                  <span className="fa fa-calendar" id="fa-2"></span>
+                 </div>
+              </div>
+              <div className="btn_down">
+                  <button type="button" class="btn btn-success">Descargar</button>
+              </div>
+            </div>
+          </form>
+        {/* </div> */}
+      </div>
+      
         </div>
-
         
-
         </nav>
         
         <div className="container">
@@ -427,14 +446,14 @@ const fetchMunicipio = () => {
                         <td>{datos.EVAP} mm</td>
                         <td>{datos.TMAX} °C</td>
                         <td>{datos.TMIN} °C</td>
-                        <td>
+                        {/* <td> */}
                           {/* <button onClick={() => this.deleteDato(datos._id)} className="btn light blue darken-4">
                                                             <i className="material-icons">delete</i>
                                                         </button> */}
                           {/* <button onClick={() => this.editDato(datos._id)} className="btn light blue darken-4" style={{marginTop: '4px'}}>
                                                             <i className="material-icons">edit</i>
                                                         </button> */}
-                        </td>
+                        {/* </td> */}
                       </tr>
                     );
                   })}
