@@ -99,7 +99,7 @@ const fetchDato = () => {
       .then((res) => res.json())
       .then((data) => {
         setdatos(data);
-        console.log(datos);
+        // console.log(datos);----
       });
       fetchEstado();
       fetchMunicipio();
@@ -151,7 +151,7 @@ const fetchEstado = () => {
       .then((res) => res.json())
       .then((data) => {
         setestados(data);
-        console.log(estados);
+        // console.log(estados);-----
       });
   }
 
@@ -160,7 +160,7 @@ const fetchMunicipio = () => {
       .then((res) => res.json())
       .then((data) => {
         setmunicipios(data);
-        console.log(municipios);
+        // console.log(municipios);-----
       });
   }
 
@@ -198,11 +198,11 @@ const fetchMunicipio = () => {
     //   });
     // }
 
-    function Filtro_final(muni){
-      console.log(muni);
+    function Filtro_final(){
+      console.log("holi soy el filtro final");
       fetch("/api/dato/filtroCombinado", {
         method: "POST",
-        body: JSON.stringify({muni}),
+        body: JSON.stringify({}),
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -228,8 +228,8 @@ const fetchMunicipio = () => {
       .then((data) => {
         //setmostrar_mun(data);
         var data2 = a_mun.concat(data);
-        console.log("esta es data2  ");
-        data2.map((element) => {console.log(element)});
+        // console.log("esta es data2  ");
+        //data2.map((element) => {console.log(element)});--------
         // console.log("esta es data  ");
         // data.map((element) => {console.log(element)});
         setSelectedOptions2(data2);
@@ -269,12 +269,13 @@ const fetchMunicipio = () => {
     function ShowSelected(arr, nom)
         {
           set_b_all(true);
-          console.log("esta es b_all en search: " + b_all);
+          // console.log("esta es b_all en search: " + b_all);-------
           console.log("estoy en show");
-          console.log("este es arr:"+arr+".");
+          // console.log("este es arr:"+arr+".");---------
           if(arr[0]== null){
-            console.log("entre al else")
+            console.log("entre al if")
             seta_es([]);
+            seta_mun([]);
             SearchMun(1);
           }else if(arr[0]!=null){
             for(i=0; i<arr.length; i++){
@@ -284,28 +285,30 @@ const fetchMunicipio = () => {
                 if(nom=="Estados"){
                   n_es.push(arr[i].value);
                   seta_es(n_es);
-                  console.log("esta es a_es:  "+n_es);
-                  console.log("este es selected: " + selectedOptions);
+                  // console.log("esta es a_es:  "+n_es);-------
+                  // console.log("este es selected: " + selectedOptions);----------
                   SearchMun(1);
                 }
                 else if (nom=="Municipios"){
                   // n_mun.push(arr[i].value);
                   // seta_mun(n_mun);
+                  set_b_all(false);
+                  console.log("arr: ",arr[i].value)
                   var mn = {"value":arr[i].value, "label":arr[i].value, "isdisabled": false};
-                  console.log("este es mn: " + mn);
+                  // console.log("este es mn: " + mn);-------
                   v_mun.push(mn);
-                  console.log("este es v_mun: " + v_mun);
+                  // console.log("este es v_mun: " + v_mun);-----
                   seta_mun(v_mun);
-                  console.log("este es a_mun: " + a_mun);
+                  // console.log("este es a_mun: " + a_mun);-----
                   // console.log("este es n_mun: " + n_mun);
-                  console.log("este es selected2: " + selectedOptions2);
+                  // console.log("este es selected2: " + selectedOptions2);---------
                   // search_esta(n_mun);
 
                 }
               }
             }
           }
-        console.log(a_es);
+        // console.log(a_es);---------
       }
       
   
@@ -380,7 +383,7 @@ const fetchMunicipio = () => {
 
         <div className="bts">
         {/* <div className="container px-1 px-sm-5 mx-auto"> */}
-          <form autocomplete="off">
+          <form autoComplete="off">
             <div className="flex-row d-flex"> 
               <div className="col-lg-6 col-11">
                 <div className="input-group input-daterange"> 
@@ -391,7 +394,7 @@ const fetchMunicipio = () => {
                  </div>
               </div>
               <div className="btn_down">
-                  <button type="button" class="btn btn-success">Descargar</button>
+                  <button type="button" className="btn btn-success" onClick={()=>Filtro_final()}>Descargar</button>
               </div>
             </div>
           </form>

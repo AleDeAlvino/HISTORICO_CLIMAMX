@@ -87,49 +87,42 @@ router.post('/search_mun', async (req, res) => {
     res.json(mun);
 });
 
-router.post('/estaciones', async (req, res) => {
+// router.post('/estaciones', async (req, res) => {
     
-    console.log(req.body.muni);
+//     console.log(req.body.muni);
 
-    const munic = [];
-    for (var i = 0; i < req.body.muni.length; i++){
-        const busqueda = await Estacion.find({MUNICIPIO:req.body.muni[i]});
-        busqueda.forEach(element => 
-        munic.push(element.ESTACION)
-        );
-        console.log("este es mun:" + munic);
-    }
+//     const munic = [];
+//     for (var i = 0; i < req.body.muni.length; i++){
+//         const busqueda = await Estacion.find({MUNICIPIO:req.body.muni[i]});
+//         busqueda.forEach(element => 
+//         munic.push(element.ESTACION)
+//         );
+//         console.log("este es mun:" + munic);
+//     }
     
-    res.json(munic);
-});
+//     res.json(munic);
+// });
 
 router.post('/filtroCombinado', async (req, res) => {
     
-    console.log(req.body.muni);
+    // console.log(req.body.muni);
 
-    const munic = [];
-    // form_com = "";
-    for (var i = 0; i < req.body.muni.length; i++){
+    // const munic = [];
+    // // form_com = "";
+    // for (var i = 0; i < req.body.muni.length; i++){
         // form_com = '"' + req.body.muni[i] + '"';
         // console.log("este es form com" + form_com);
-        const busqueda = await Estacion.find({MUNICIPIO:req.body.muni[i]});
-        busqueda.forEach(element => 
-        munic.push(element.ESTACION)
-        );
-        // console.log("este es busqueda" + busqueda);
-        console.log("este es mun:" + munic);
-    }
-    
-    // // for (var i = 0; i < mun.length; i++){
-    //     console.log("este es elemento mun" + mun[1]);
-    //     const busqueda2 = await Dato.find({ID_ESTACION:mun[1]});
-    //     // console.log("este es req: " +req.body.muni[1]);
-    //     // const busqueda2 = await Dato.find({ID_ESTACION:req.body.muni[1]});
-    //     console.log("este es busqueda2" + busqueda2);
-    // // }
-    // // const datos = await Dato.find({MUNICIPIO:"AGUASCALIENTES"});
-    // // const datos = await Dato.find({FECHA:ISODate("1970-06-03T06:00:00.000+00:00")});
-    // // console.log("estos son datos" + mun);
+        const busqueda = await Dato.find({ID_ESTACION:1004},['-_id']).limit(10).lean();
+
+    // A partir de aqui se descarga el csv
+    try {
+    json_data=busqueda
+    // console.log(json_data)--------
+    df = new dfd.DataFrame(json_data)
+    console.log(df.tensor);
+    df.to_csv({ filePath: "src/documents/testOut.csv"});
+    df.print();
+    } catch(err) {console.log(err) }
     
     res.json({status: 'Dato'});
 });

@@ -1,0 +1,11 @@
+ID_ESTACION,FECHA,PRECIP,EVAP,TMAX,TMIN
+1004,Wed Jun 03 1970 00:00:00 GMT-0600 (hora estándar central),0,NaN,NaN,NaN
+1004,Fri Jul 03 1970 00:00:00 GMT-0600 (hora estándar central),0,NaN,19,-2
+1004,Mon Aug 03 1970 00:00:00 GMT-0600 (hora estándar central),0,NaN,22,-3
+1004,Thu Sep 03 1970 00:00:00 GMT-0600 (hora estándar central),0,NaN,24,0
+1004,Sat Oct 03 1970 00:00:00 GMT-0600 (hora estándar central),0,NaN,22,1
+1004,Tue Nov 03 1970 00:00:00 GMT-0600 (hora estándar central),0,NaN,22,7
+1004,Thu Dec 03 1970 00:00:00 GMT-0600 (hora estándar central),0,NaN,23,3
+1004,Wed Dec 31 1969 18:00:00 GMT-0600 (hora estándar central),0,NaN,23,3
+1004,Wed Dec 31 1969 18:00:00 GMT-0600 (hora estándar central),0,NaN,21,2
+1004,Wed Dec 31 1969 18:00:00 GMT-0600 (hora estándar central),0,NaN,26,5
